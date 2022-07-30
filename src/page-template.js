@@ -9,7 +9,7 @@ function renderManager(manager){
 
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item">ID: ${manager.getID}</li>
+          
             <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</li>
             <li class="list-group-item">Office Number: ${manager.getOffice()}</li>
         </ul>
@@ -28,7 +28,7 @@ function renderEngineers(engineers){
 
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item">ID: ${engineer.getID}</li>
+           
             <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</li>
             <li class="list-group-item">GitHub:  <a href="https://github.com/${engineer.getGithub()}"></li>
         </ul>
@@ -39,9 +39,27 @@ function renderEngineers(engineers){
     
     
 }
-function renderInterns(interns){
-    return `intern`;
-}
+ function renderInterns(interns){
+     const markup = interns.map((intern) => {
+         return `
+        <div class="card employee-card">
+     <div class="card-header">
+        <h2 class="card-title">${intern.getName()}</h2>
+         <h3 class="card-title">${intern.getRole()}</h3>
+     </div>
+     </div>
+
+     <div class="card-body">
+        <ul class="list-group">
+
+             <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</li>
+            <li class="list-group-item">School: ${intern.getSchool()}</li>
+         </ul>
+     </div>
+         `;
+     });
+    return markup.join(',');
+ }
 
 function generateTeam(teamMembers){
     return `
