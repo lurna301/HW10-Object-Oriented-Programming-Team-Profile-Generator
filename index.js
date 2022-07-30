@@ -17,10 +17,10 @@ function createManager(){
 
     inquirer.prompt([
 
-//Prompt for Manager ID input
+//Prompt for Manager Name input
         {
             type: 'input',
-            name: 'managerName',
+            name: 'name',
             validate: (answer) => {
                 if (answer !== ''){
                     return true;
@@ -80,10 +80,117 @@ function createManager(){
         )
         teamMembers.manager = manager;
         idArray.push(answers.managerID);
-        buildTeam();
+        createTeam();
 
     });
 };
+
+function createTeam() {
+
+    inquirer.prompt( {
+
+        type: 'list',
+        name: 'choice',
+        message: 'Which type of team member would you like to add?',
+        choices: [
+            'Engineer',
+            'Intern',
+            'I do not want ot add any more'
+        ]
+
+    }).then((answers) => {
+        switch (answers.choice){
+            case "Engineer":
+                addEngineer();
+                break;
+            case "Intern":
+                addIntern();
+                break;
+            default:
+                buildTeam();
+        }
+    })
+   
+};
+
+function addEngineer() {
+    inquirer.prompt([
+
+        //Prompt for Engineer ID input
+                {
+                    type: 'input',
+                    name: 'name',
+                    validate: (answer) => {
+                        if (answer !== ''){
+                            return true;
+                        }
+                        return "Please enter at least one character";
+                    },
+                },
+        //Prompt for Manager ID input
+                {
+                    type: 'input',
+                    name: 'id',
+                    message: "Please enter id.",
+                    validate: (answer) => {
+                        const pass = answer.match(/^[1-9]\d*$/)
+                        if (pass){
+                            if(idArray.includes(answer)){
+                                return "This id is already taken"
+                            }else{
+                                return true;
+                            }
+                        }
+                        return 'Please enter a positive number greater than 0'
+                    },
+        
+                },
+        //Prompt for email input
+                {
+                    type: 'input',
+                    name: 'email',
+                    message: "Please enter email address.",
+                    validate: (answer) => {
+                        const pass = answer.match(/\S+@\S+\.\S+/);
+                        if (pass){
+                            return true
+                        }
+                        return 'Please enter a valid email.'
+                    },
+        
+                },
+        
+        //Prompt for Engineer office github input
+                {
+                    type: 'input',
+                    name: 'github',
+                    message: "Please enter github.",
+                    validate: (answer) => {
+                        if (answer !== ''){
+                            return true;
+                        }
+                        return "Please enter at least one character";
+                    },
+        
+                },
+            ]).then((answers) => {
+                const engineer = new Engineer(
+                    answers.name,
+                    answers.id,
+                    answers.email,
+                    answers.github
+                )
+                teamMembers.engineers.push(engineer);
+                idArray.push(answers.id);
+                createTeam();
+        
+            });
+        };
+
+
+
+function addIntern() {};
+
 
 
 function buildTeam(){

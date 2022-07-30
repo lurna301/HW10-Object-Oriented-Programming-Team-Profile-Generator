@@ -17,7 +17,27 @@ function renderManager(manager){
     `;
 }   
 function renderEngineers(engineers){
-    return `engineer`;
+    const markup = engineers.map((engineer) => {
+        return `
+        <div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">${engineer.getName()}</h2>
+        <h3 class="card-title">${engineer.getRole()}</h3>
+    </div>
+    </div>
+
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${engineer.getID}</li>
+            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</li>
+            <li class="list-group-item">GitHub:  <a href="https://github.com/${engineer.getGithub()}"></li>
+        </ul>
+    </div>
+        `;
+    });
+    return markup.join(',');
+    
+    
 }
 function renderInterns(interns){
     return `intern`;
@@ -33,7 +53,7 @@ function generateTeam(teamMembers){
 }
 
 function render(teamMembers){
-    return `
+    return  `
     <!DOCTYPE html>
     <html lang="en">
     <head>
